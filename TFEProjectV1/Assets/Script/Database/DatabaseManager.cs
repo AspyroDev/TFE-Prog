@@ -8,7 +8,7 @@ using Npgsql;
 
 public class DatabaseManager : MonoBehaviour
 {
-    string connString = "Host=127.0.0.1:5432;Username=postgres;Password=tfe-postgres;Database=tfe-postgres-unity";
+    string connString = "Host=127.0.0.1:5432;Username=postgres;Password=password;Database=tfe_database";
 
     // Start is called before the first frame update
     async void Start()
