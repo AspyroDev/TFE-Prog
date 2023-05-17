@@ -6,29 +6,59 @@ using Npgsql;
 
 
 
-public class DatabaseManager : MonoBehaviour
+public class DatabaseManager
 {
     string connString = "Host=127.0.0.1:5432;Username=postgres;Password=password;Database=tfe_database";
 
-    // Start is called before the first frame update
-    async void Start()
+    private static DatabaseManager databaseInstance;
+    private NpgsqlConnection connection;
+
+    private DatabaseManager() 
     {
-        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connString);
-        var dataSource = dataSourceBuilder.Build();
+        NpgsqlDataSourceBuilder dataSourceBuilder = new NpgsqlDataSourceBuilder(connString);
+        NpgsqlDataSource dataSource = dataSourceBuilder.Build();
 
-        var conn = await dataSource.OpenConnectionAsync();
-
-        await using (var cmd = new NpgsqlCommand("SELECT * FROM level01_shoppinglist;", conn))
-        await using (var reader = await cmd.ExecuteReaderAsync())
-        {
-            while (await reader.ReadAsync())
-                Debug.Log(reader.GetString(0) + " " + reader.GetString(1));
-        }
+        NpgsqlConnection conn = dataSource.OpenConnection();
+        this.connection = conn;
     }
 
-    // Update is called once per frame
-    void Update()
+    public NpgsqlConnection getConnection() 
     {
+        return connection;
+    }
+
+    public static DatabaseManager getInstance()
+    {
+        if (databaseInstance == null)
+        {
+            databaseInstance = new DatabaseManager();
+        }
+
+        return databaseInstance;
+    }
+
+    public List<Level01Ingredient> GetLevel01Ingredients()
+    {
+        List<Level01Ingredient> ingredientSet = new List<Level01Ingredient>();
         
+        using (var cmd = new NpgsqlCommand("SELECT * FROM level01_shoppinglist;", connection))
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                Level01Ingredient templateIngredient = new Level01Ingredient();
+                templateIngredient.Name = reader.GetString(0);
+                templateIngredient.Category = reader.GetString(1);
+                templateIngredient.SizeUnit = reader.GetString(2);
+                templateIngredient.MinSize = reader.GetInt32(3);
+                templateIngredient.MaxSize = reader.GetInt32(4);
+                templateIngredient.MinPrice = reader.GetInt32(5);
+                templateIngredient.MaxPrice = reader.GetInt32(6);
+
+                ingredientSet.Add(templateIngredient);
+            }
+        }
+
+        return ingredientSet;
     }
 }
