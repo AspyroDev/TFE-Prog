@@ -14,6 +14,6 @@ public class Level01Ingredient
 
     public override string ToString()
     {
-        return "Ingredient name : " + Name;
+        return Name;
     }
 }
