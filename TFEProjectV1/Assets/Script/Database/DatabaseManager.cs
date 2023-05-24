@@ -54,6 +54,7 @@ public class DatabaseManager
                 templateIngredient.MaxSize = reader.GetInt32(4);
                 templateIngredient.MinPrice = reader.GetInt32(5);
                 templateIngredient.MaxPrice = reader.GetInt32(6);
+                templateIngredient.ModelName = reader.GetString(7);
 
                 ingredientSet.Add(templateIngredient);
             }

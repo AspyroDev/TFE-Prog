@@ -11,6 +11,7 @@ public class Level01Ingredient
     public int MaxSize { get; set; }
     public int MinPrice { get; set; }
     public int MaxPrice { get; set; }
+    public string ModelName { get; set; }
 
     public override string ToString()
     {

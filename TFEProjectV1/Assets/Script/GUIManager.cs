@@ -14,6 +14,8 @@ public class GUIManager : MonoBehaviour
     public TextMeshProUGUI sizeText;
     public TextMeshProUGUI priceText;
 
+    public GameObject ingredientObject;
+
     void printIngredientValues() 
     {
         List<Level01Ingredient> ingredient = dbManager.getIngredients(1);
@@ -34,6 +36,19 @@ public class GUIManager : MonoBehaviour
         // Get Price
         priceText.text = 
             Random.Range(ingredient[0].MinPrice, ingredient[0].MaxPrice).ToString();
+
+        MeshFilter mesh = ingredientObject.GetComponent<MeshFilter>();
+        Debug.Log(ingredientObject.GetComponent<MeshFilter>());
+        if (ingredient[0].ModelName != "")
+        {   
+            Debug.Log(ingredient[0].ModelName);
+            mesh.mesh = Resources.Load<Mesh>("Mesh/" + ingredient[0].ModelName);
+        }
+        else
+        {
+            mesh.mesh = Resources.Load<Mesh>("Mesh/" + "Frappe B");
+        }
+
     }
 
     // Start is called before the first frame update
