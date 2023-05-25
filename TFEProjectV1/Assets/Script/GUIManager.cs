@@ -43,13 +43,14 @@ public class GUIManager : MonoBehaviour
         {   
             Debug.Log(ingredient[0].ModelName);
             mesh.mesh = Resources.Load<Mesh>("Mesh/" + ingredient[0].ModelName);
+            ingredientObject.transform.Rotate(ingredient[0].XRotation, ingredient[0].YRotation, ingredient[0].ZRotation);
         }
         else
         {
             mesh.mesh = Resources.Load<Mesh>("Mesh/" + "Cookie");
             ingredientObject.transform.Rotate(-90f, 0f, 0f);
         }
-        ingredientObject.transform.Rotate(ingredient[0].XRotation, ingredient[0].YRotation, ingredient[0].ZRotation);
+        
 
     }
 
