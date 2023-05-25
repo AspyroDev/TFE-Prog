@@ -12,6 +12,9 @@ public class Level01Ingredient
     public int MinPrice { get; set; }
     public int MaxPrice { get; set; }
     public string ModelName { get; set; }
+    public float XRotation {get; set; }
+    public float YRotation {get; set; }
+    public float ZRotation {get; set; }
 
     public override string ToString()
     {

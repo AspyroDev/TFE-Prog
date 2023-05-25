@@ -46,8 +46,10 @@ public class GUIManager : MonoBehaviour
         }
         else
         {
-            mesh.mesh = Resources.Load<Mesh>("Mesh/" + "Frappe B");
+            mesh.mesh = Resources.Load<Mesh>("Mesh/" + "Cookie");
+            ingredientObject.transform.Rotate(-90f, 0f, 0f);
         }
+        ingredientObject.transform.Rotate(ingredient[0].XRotation, ingredient[0].YRotation, ingredient[0].ZRotation);
 
     }
 
