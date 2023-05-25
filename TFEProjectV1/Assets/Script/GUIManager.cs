@@ -16,48 +16,54 @@ public class GUIManager : MonoBehaviour
 
     public GameObject ingredientObject;
 
-    void printIngredientValues() 
+    void objectSelection()
+    {
+        Debug.Log(ingredientObject.transform.childCount);
+        Debug.Log(ingredientObject.transform.GetComponentsInChildren<Transform>());
+        for (int i = 0; i < ingredientObject.transform.childCount; i++)
+        {
+            printIngredientValues(ingredientObject.transform.GetChild(i));
+        }
+    }
+
+    void printIngredientValues(Transform item) 
     {
         List<Level01Ingredient> ingredient = dbManager.getIngredients(1);
         
         // Get Name
-        nameText.text = ingredient[0].Name.ToString();
+        item.GetChild(0).GetComponent<TextMeshProUGUI>().text = ingredient[0].Name.ToString();
 
         // Get Category
-        categoryText.text = ingredient[0].Category.ToString();
+        item.GetChild(1).GetComponent<TextMeshProUGUI>().text = ingredient[0].Category.ToString();
 
         // Get SizeUnit
-        sizeUnitText.text = ingredient[0].SizeUnit.ToString();
+        item.GetChild(2).GetComponent<TextMeshProUGUI>().text = ingredient[0].SizeUnit.ToString();
 
         // Get Size
-        sizeText.text = 
+        item.GetChild(3).GetComponent<TextMeshProUGUI>().text = 
             Random.Range(ingredient[0].MinSize, ingredient[0].MaxSize).ToString();
         
         // Get Price
-        priceText.text = 
+        item.GetChild(4).GetComponent<TextMeshProUGUI>().text = 
             Random.Range(ingredient[0].MinPrice, ingredient[0].MaxPrice).ToString();
 
-        MeshFilter mesh = ingredientObject.GetComponent<MeshFilter>();
-        Debug.Log(ingredientObject.GetComponent<MeshFilter>());
+        MeshFilter mesh = item.GetChild(5).GetComponentInChildren<MeshFilter>();
         if (ingredient[0].ModelName != "")
         {   
-            Debug.Log(ingredient[0].ModelName);
             mesh.mesh = Resources.Load<Mesh>("Mesh/" + ingredient[0].ModelName);
-            ingredientObject.transform.Rotate(ingredient[0].XRotation, ingredient[0].YRotation, ingredient[0].ZRotation);
+            item.GetChild(5).transform.Rotate(ingredient[0].XRotation, ingredient[0].YRotation, ingredient[0].ZRotation);
         }
         else
         {
             mesh.mesh = Resources.Load<Mesh>("Mesh/" + "Cookie");
-            ingredientObject.transform.Rotate(-90f, 0f, 0f);
+            item.GetChild(5).transform.Rotate(-90f, 0f, 0f);
         }
-        
-
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        printIngredientValues();
+        objectSelection();
     }
 
     // Update is called once per frame
